@@ -1,0 +1,7 @@
+{
+  "item.tomfoolery.token": "Token",
+  "block.tomfoolery.example-block": "A Block",
+  "tooltip.tomfoolery.example-tooltip": "%1$s%2$s (%3$s)",
+  "effect.tomfoolery.example-effect": "An Effect",
+  "itemgroup.tomfoolery.tomfoolery": "Tomfoolery"
+}
