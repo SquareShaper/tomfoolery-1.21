@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:quartz"
+    },
+    "X": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "pattern": [
+    "  #",
+    " # ",
+    "X  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "tomfoolery:magic_sword"
+  }
+}

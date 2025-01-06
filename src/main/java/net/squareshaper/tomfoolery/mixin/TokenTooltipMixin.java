@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
-import net.squareshaper.tomfoolery.registry.ModComponents;
+import net.squareshaper.tomfoolery.item.TokenItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,9 +16,7 @@ import java.util.List;
 public class TokenTooltipMixin {
     @Inject(at = @At("HEAD"), method = "appendTooltip")
     private void appendTokenTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo info) {
-        Integer tokens = stack.get(ModComponents.TOKEN_COUNT);
-        if (tokens != null) {
-            tooltip.add(Text.literal("Tokens: " + tokens));
-        }
+        List<Text> tooltipsToAdd = TokenItem.doTokenTooltip(stack);
+        tooltip.addAll(tooltipsToAdd);
     }
 }

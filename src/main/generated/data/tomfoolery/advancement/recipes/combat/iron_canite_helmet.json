@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_canite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "tomfoolery:canite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "tomfoolery:iron_canite_helmet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_canite_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tomfoolery:iron_canite_helmet"
+    ]
+  }
+}

@@ -15,6 +15,17 @@ public class ModItemGroups {
                     .displayName(Text.translatable("itemgroup.tomfoolery.tomfoolery"))
                     .entries((displayContext, entries) -> {
                     entries.add(ModItems.TOKEN);
+                    entries.add(ModItems.MAGIC_SWORD);
+                    entries.add(ModItems.CANINE_STAFF);
+                    entries.add(ModItems.CANITE_INGOT);
+                    entries.add(ModItems.IRON_CANITE_HELMET);
+                    entries.add(ModItems.IRON_CANITE_CHESTPLATE);
+                    entries.add(ModItems.IRON_CANITE_LEGGINGS);
+                    entries.add(ModItems.IRON_CANITE_BOOTS);
+                    entries.add(ModItems.DIAMOND_CANITE_HELMET);
+                    entries.add(ModItems.DIAMOND_CANITE_CHESTPLATE);
+                    entries.add(ModItems.DIAMOND_CANITE_LEGGINGS);
+                    entries.add(ModItems.DIAMOND_CANITE_BOOTS);
                     }).build());
 
     public static void registerModItemGroups() {

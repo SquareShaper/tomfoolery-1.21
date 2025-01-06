@@ -6,7 +6,10 @@
     "ExampleMixin",
     "TokenTooltipCrossbowMixin",
     "TokenTooltipMixin",
-    "TokenTooltipShieldMixin"
+    "TokenTooltipShieldMixin",
+    "ToolToDiamondMixin"
+  ],
+  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

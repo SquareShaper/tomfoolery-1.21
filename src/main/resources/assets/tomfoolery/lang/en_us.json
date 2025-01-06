@@ -1,7 +1,20 @@
 {
   "item.tomfoolery.token": "Token",
+  "item.tomfoolery.magic_sword": "Magic Sword",
+  "item.tomfoolery.canite_ingot": "Canite Ingot",
+  "item.tomfoolery.canine_staff": "Canine Staff",
+  "item.tomfoolery.iron_canite_helmet": "Canite Helmet",
+  "item.tomfoolery.iron_canite_chestplate": "Canite Chestplate",
+  "item.tomfoolery.iron_canite_leggings": "Canite Leggings",
+  "item.tomfoolery.iron_canite_boots": "Canite Boots",
+  "item.tomfoolery.diamond_canite_helmet": "Diamond Reinforced Canite Helmet",
+  "item.tomfoolery.diamond_canite_chestplate": "Diamond Reinforced Canite Chestplate",
+  "item.tomfoolery.diamond_canite_leggings": "Diamond Reinforced Canite Leggings",
+  "item.tomfoolery.diamond_canite_boots": "Diamond Reinforced Canite Boots",
   "block.tomfoolery.example-block": "A Block",
   "tooltip.tomfoolery.example-tooltip": "%1$s%2$s (%3$s)",
+  "tooltip.tomfoolery.ability_enabled": "Ability Enabled!",
+  "tooltip.tomfoolery.ability_disabled": "Ability Disabled.",
   "effect.tomfoolery.example-effect": "An Effect",
   "itemgroup.tomfoolery.tomfoolery": "Tomfoolery"
 }

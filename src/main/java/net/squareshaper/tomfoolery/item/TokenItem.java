@@ -1,11 +1,8 @@
 package net.squareshaper.tomfoolery.item;
 
-import net.minecraft.component.Component;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.slot.Slot;
@@ -49,5 +46,14 @@ public class TokenItem extends Item {
             tooltip.add(Text.literal("Tokens:" + Tokens));
         }
         super.appendTooltip(stack, context, tooltip, type);
+    }
+
+    public static List<Text> doTokenTooltip(ItemStack stack) {
+        List<Text> tooltips = new java.util.ArrayList<>();
+        Integer Tokens = stack.get(ModComponents.TOKEN_COUNT);
+        if (Tokens != null) {
+            tooltips.add(Text.literal("Tokens: " + Tokens));
+        }
+        return tooltips;
     }
 }

@@ -2,10 +2,7 @@ package net.squareshaper.tomfoolery;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.squareshaper.tomfoolery.datagen.ModBlockTagProvider;
-import net.squareshaper.tomfoolery.datagen.ModLootTableProvider;
-import net.squareshaper.tomfoolery.datagen.ModModelProvider;
-import net.squareshaper.tomfoolery.datagen.ModRecipeProvider;
+import net.squareshaper.tomfoolery.datagen.*;
 import net.squareshaper.tomfoolery.registry.ModRegistryDataGenerator;
 
 public class TomfooleryDataGenerator implements DataGeneratorEntrypoint {
@@ -18,5 +15,6 @@ public class TomfooleryDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModRecipeProvider::new);
 		pack.addProvider(ModRegistryDataGenerator::new);
+		pack.addProvider(ModItemTagProvider::new);
 	}
 }

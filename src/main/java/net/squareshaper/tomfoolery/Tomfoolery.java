@@ -1,11 +1,20 @@
 package net.squareshaper.tomfoolery;
 
 import net.fabricmc.api.ModInitializer;
-
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.World;
 import net.squareshaper.tomfoolery.registry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tomfoolery implements ModInitializer {
 	public static final String MOD_ID = "tomfoolery";
@@ -32,5 +41,18 @@ public class Tomfoolery implements ModInitializer {
 		ModItemGroups.registerModItemGroups();
 		ModItems.registerModItems();
 		ModComponents.registerModComponents();
+	}
+
+	public static List<ItemEntity> getItemsNear(World world, BlockPos position, Item item, PlayerEntity user, Float range) {
+		List<Entity> Entities = world.getOtherEntities(user, new Box(position).expand(range), itemEntity -> itemEntity instanceof ItemEntity);
+		List<ItemEntity> itemEntities = new ArrayList<>();
+		for (Entity entity:Entities) {
+			if (entity instanceof ItemEntity itemEntity) {
+				if (itemEntity.getStack().getItem() == item) {
+					itemEntities.add(itemEntity);
+				}
+			}
+		}
+		return itemEntities;
 	}
 }
