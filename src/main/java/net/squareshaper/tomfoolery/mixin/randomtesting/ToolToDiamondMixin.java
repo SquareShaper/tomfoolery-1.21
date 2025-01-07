@@ -1,4 +1,4 @@
-package net.squareshaper.tomfoolery.mixin;
+package net.squareshaper.tomfoolery.mixin.randomtesting;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

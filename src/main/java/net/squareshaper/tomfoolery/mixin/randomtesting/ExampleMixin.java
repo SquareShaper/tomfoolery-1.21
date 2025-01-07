@@ -1,4 +1,4 @@
-package net.squareshaper.tomfoolery.mixin;
+package net.squareshaper.tomfoolery.mixin.randomtesting;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

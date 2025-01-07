@@ -1,4 +1,4 @@
-package net.squareshaper.tomfoolery.mixin;
+package net.squareshaper.tomfoolery.mixin.tokendisplay;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
