@@ -1,10 +1,12 @@
 package net.squareshaper.tomfoolery;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.component.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -54,5 +56,25 @@ public class Tomfoolery implements ModInitializer {
 			}
 		}
 		return itemEntities;
+	}
+
+	public static Boolean tryGetItemBooleanComponent(ComponentType<Boolean> component, ItemStack stack, Boolean defaultValue) {
+		Boolean enabled = stack.get(component);
+		if (enabled != null) {
+			return enabled;
+		} else {
+			stack.set(component, defaultValue);
+			return defaultValue;
+		}
+	}
+
+	public static Integer tryGetItemIntegerComponent(ComponentType<Integer> component, ItemStack stack, Integer defaultValue) {
+		Integer number = stack.get(component);
+		if (number != null) {
+			return number;
+		} else {
+			stack.set(component, defaultValue);
+			return defaultValue;
+		}
 	}
 }

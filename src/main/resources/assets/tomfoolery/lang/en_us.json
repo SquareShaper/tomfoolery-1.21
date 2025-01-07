@@ -15,6 +15,7 @@
   "tooltip.tomfoolery.example-tooltip": "%1$s%2$s (%3$s)",
   "tooltip.tomfoolery.ability_enabled": "Ability Enabled!",
   "tooltip.tomfoolery.ability_disabled": "Ability Disabled.",
+  "tooltip.tomfoolery.ability_cooldown": "CD: %1$s",
   "effect.tomfoolery.example-effect": "An Effect",
   "itemgroup.tomfoolery.tomfoolery": "Tomfoolery"
 }
