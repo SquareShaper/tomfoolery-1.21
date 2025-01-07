@@ -16,6 +16,9 @@
   "tooltip.tomfoolery.ability_enabled": "Ability Enabled!",
   "tooltip.tomfoolery.ability_disabled": "Ability Disabled.",
   "tooltip.tomfoolery.ability_cooldown": "CD: %1$s",
+  "tooltip.tomfoolery.default_ability": "This armorpiece has no ability.",
+  "tooltip.tomfoolery.waterskip_ability": "You can skip over water!",
+  "tooltip.tomfoolery.sniff_ability": "You can sniff out nearby mobs. \n This let's you see them through walls!",
   "effect.tomfoolery.example-effect": "An Effect",
   "itemgroup.tomfoolery.tomfoolery": "Tomfoolery"
 }

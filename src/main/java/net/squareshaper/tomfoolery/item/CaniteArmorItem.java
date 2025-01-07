@@ -1,14 +1,14 @@
 package net.squareshaper.tomfoolery.item;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.world.World;
 import net.squareshaper.tomfoolery.registry.ModArmorMaterials;
+import net.squareshaper.tomfoolery.registry.ModComponents;
 
 import java.util.List;
 import java.util.Map;
@@ -35,13 +35,20 @@ public class CaniteArmorItem extends ToggleableArmorItem {
                     .build();
 
     @Override
-    public int bootsEffect(World world, ItemStack stack, PlayerEntity player) {
-        if (player.isSneaking()) {
-            player.addVelocity(0, 1, 0);
-            return 600;
+    public String getBootsTooltip() {
+        return "tooltip.tomfoolery.waterskip_ability";
+    }
+
+    @Override
+    public String getHelmetTooltip() {
+        return "tooltip.tomfoolery.sniff_ability";
+    }
+
+    public static boolean getSniffing(ClientPlayerEntity player) {
+        ItemStack helmet = player.getInventory().getArmorStack(0);
+        if (helmet.getItem().getComponents() instanceof CaniteArmorItem && Boolean.TRUE.equals(helmet.get(ModComponents.ABILITY_ENABLED))) {
+            return true;
         }
-        else {
-            return 0;
-        }
+        return true;
     }
 }

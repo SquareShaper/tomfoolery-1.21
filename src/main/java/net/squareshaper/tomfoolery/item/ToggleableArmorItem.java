@@ -40,22 +40,24 @@ public class ToggleableArmorItem extends ArmorItem {
                     player.getItemCooldownManager().set(stack.getItem(), cooldown);
                 }
             } else {
-                if (enabled && player.getInventory().getArmorStack(slot) == stack) {
-                    switch (slot) {
-                        case 3:
-                            cooldown = helmetEffect(world, stack, player);
-                            break;
-                        case 2:
-                            cooldown = chestplateEffect(world, stack, player);
-                            break;
-                        case 1:
-                            cooldown = leggingsEffect(world, stack, player);
-                            break;
-                        case 0:
-                            cooldown = bootsEffect(world, stack, player);
-                            break;
-                        default:
-                            break;
+                if (enabled && slot <= 3) {
+                    if (player.getInventory().getArmorStack(slot) == stack) {
+                        switch (slot) {
+                            case 3:
+                                cooldown = helmetEffect(world, stack, player);
+                                break;
+                            case 2:
+                                cooldown = chestplateEffect(world, stack, player);
+                                break;
+                            case 1:
+                                cooldown = leggingsEffect(world, stack, player);
+                                break;
+                            case 0:
+                                cooldown = bootsEffect(world, stack, player);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
                 stack.set(ModComponents.ABILITY_COOLDOWN, cooldown);
@@ -187,6 +189,40 @@ public class ToggleableArmorItem extends ArmorItem {
         }
         tooltip.add(Text.translatable("tooltip.tomfoolery.ability_cooldown", abilityCooldown));
 
+        String tooltipKey = "tooltip.tomfoolery.default_ability";
+        switch (this.type) {
+            case Type.HELMET:
+                tooltipKey = getHelmetTooltip();
+                break;
+            case Type.CHESTPLATE:
+                tooltipKey = getChestplateTooltip();
+                break;
+            case Type.LEGGINGS:
+                tooltipKey = getLeggingsTooltip();
+                break;
+            case Type.BOOTS:
+                tooltipKey = getBootsTooltip();
+                break;
+        }
+        tooltip.add(Text.translatable(tooltipKey));
+
+
         super.appendTooltip(stack, context, tooltip, type);
+    }
+
+    public String getHelmetTooltip() {
+        return "tooltip.tomfoolery.default_ability";
+    }
+
+    public String getChestplateTooltip() {
+        return "tooltip.tomfoolery.default_ability";
+    }
+
+    public String getLeggingsTooltip() {
+        return "tooltip.tomfoolery.default_ability";
+    }
+
+    public String getBootsTooltip() {
+        return "tooltip.tomfoolery.default_ability";
     }
 }
