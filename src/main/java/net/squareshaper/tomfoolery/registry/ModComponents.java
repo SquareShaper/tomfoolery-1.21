@@ -28,6 +28,12 @@ public class ModComponents {
             ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
+    public static final ComponentType<Integer> LUNGE_ABILITY_TIMER = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Tomfoolery.id("lunge_ability_timer"),
+            ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
     public static void registerModComponents() {
         Tomfoolery.LOGGER.info("Registering Components for " + Tomfoolery.MOD_ID + "...");
     }

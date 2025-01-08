@@ -4,9 +4,12 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.World;
+import net.squareshaper.tomfoolery.Tomfoolery;
 import net.squareshaper.tomfoolery.registry.ModArmorMaterials;
 import net.squareshaper.tomfoolery.registry.ModComponents;
 
@@ -45,10 +48,30 @@ public class CaniteArmorItem extends ToggleableArmorItem {
     }
 
     public static boolean getSniffing(ClientPlayerEntity player) {
-        ItemStack helmet = player.getInventory().getArmorStack(0);
-        if (helmet.getItem().getComponents() instanceof CaniteArmorItem && Boolean.TRUE.equals(helmet.get(ModComponents.ABILITY_ENABLED))) {
-            return true;
+        ItemStack helmet = player.getInventory().getArmorStack(3);
+
+        return helmet.getItem() instanceof CaniteArmorItem && Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, helmet, false)
+                && player.isSneaking();
+    }
+
+    @Override
+    public int bootsEffect(World world, ItemStack stack, PlayerEntity player) {
+        int timer = Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, stack, 0);
+        if (timer > 0) {
+            stack.set(ModComponents.LUNGE_ABILITY_TIMER, timer-1);
         }
-        return true;
+        else if (timer < 0) {
+            stack.set(ModComponents.LUNGE_ABILITY_TIMER, 0);
+            return 400;
+        }
+        return 0;
+    }
+
+    public static boolean canLunge(ItemStack boots) {
+        return Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0) > 0;
+    }
+
+    public static void lunge(PlayerEntity player) {
+        player.addVelocity(0, 2, 0);
     }
 }

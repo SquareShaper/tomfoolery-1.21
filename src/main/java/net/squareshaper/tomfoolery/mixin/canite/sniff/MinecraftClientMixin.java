@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 
-//all Credits for this mixin go to MoriyaShiine's
+//all Credits for this mixin go to MoriyaShiine's Enchancement mod
 //original: https://github.com/MoriyaShiine/enchancement/blob/main/src/main/java/moriyashiine/enchancement/mixin/enchantmenteffectcomponenttype/entityxray/client/MinecraftClientMixin.java
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -21,7 +21,7 @@ public class MinecraftClientMixin {
     public ClientPlayerEntity player;
 
     @ModifyReturnValue(method = "hasOutline", at = @At("RETURN"))
-    private boolean enchancement$entityXray(boolean original, Entity entity) {
+    private boolean tomfoolery$entityXray(boolean original, Entity entity) {
         if (!original && player != null && entity instanceof LivingEntity living) {
             float distance = 10;
             //set this to true if I ever add an ability that hides your scent xD
