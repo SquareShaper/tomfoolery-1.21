@@ -9,6 +9,19 @@ import net.squareshaper.tomfoolery.Tomfoolery;
 
 public class NetworkingConstants {
     public static final Identifier TROT_PACKET_ID = Tomfoolery.id("trot");
+    public static final Identifier LUNGE_PACKET_ID = Tomfoolery.id("lunge");
+
+    public record LungePayload(boolean Lunge) implements CustomPayload {
+        public static final CustomPayload.Id<LungePayload> ID = new CustomPayload.Id<>(NetworkingConstants.LUNGE_PACKET_ID);
+        public static final PacketCodec<RegistryByteBuf, LungePayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOL, LungePayload::Lunge, LungePayload::new);
+
+        @Override
+        public LungePayload.Id<? extends LungePayload> getId() {
+            return ID;
+        }
+    }
+
+
     public record TrotPayload(boolean Trot) implements CustomPayload {
         public static final CustomPayload.Id<TrotPayload> ID = new CustomPayload.Id<>(NetworkingConstants.TROT_PACKET_ID);
         public static final PacketCodec<RegistryByteBuf, TrotPayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOL, TrotPayload::Trot, TrotPayload::new);

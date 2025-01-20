@@ -49,11 +49,19 @@ public class Tomfoolery implements ModInitializer {
 		ModComponents.registerModComponents();
 
 		PayloadTypeRegistry.playC2S().register(NetworkingConstants.TrotPayload.ID, NetworkingConstants.TrotPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(NetworkingConstants.LungePayload.ID, NetworkingConstants.LungePayload.CODEC);
 
 		ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.TrotPayload.ID, ((payload, context) -> {
 			ItemStack leggings = context.player().getInventory().getArmorStack(1);
 			if (!leggings.isEmpty() && leggings.getItem() instanceof CaniteArmorItem caniteLeggings) {
 				caniteLeggings.setTrot(context.player(), leggings, payload.Trot());
+			}
+		}));
+
+		ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.LungePayload.ID, ((payload, context) -> {
+			ItemStack boots = context.player().getInventory().getArmorStack(0);
+			if (!boots.isEmpty() && boots.getItem() instanceof CaniteArmorItem caniteLeggings) {
+				caniteLeggings.setLunge(context.player(), boots, payload.Lunge());
 			}
 		}));
 	}

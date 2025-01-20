@@ -24,8 +24,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Final
     protected MinecraftClient client;
 
-    @Inject(method = "tickMovement", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     public void activateTrot(CallbackInfo ci) {
         ClientPlayNetworking.send(new NetworkingConstants.TrotPayload(this.client.options.sprintKey.isPressed()));
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void checkJump(CallbackInfo ci) {
+        ClientPlayNetworking.send(new NetworkingConstants.LungePayload(this.client.options.jumpKey.isPressed()));
     }
 }

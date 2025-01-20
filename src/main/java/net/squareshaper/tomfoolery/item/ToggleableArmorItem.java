@@ -61,6 +61,7 @@ public class ToggleableArmorItem extends ArmorItem {
                     }
                 }
                 stack.set(ModComponents.ABILITY_COOLDOWN, cooldown);
+                player.getItemCooldownManager().set(stack.getItem(), cooldown);
             }
 
         }

@@ -9,6 +9,7 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.squareshaper.tomfoolery.Tomfoolery;
 import net.squareshaper.tomfoolery.registry.ModArmorMaterials;
@@ -62,34 +63,6 @@ public class CaniteArmorItem extends ToggleableArmorItem {
     }
 
     @Override
-    public int bootsEffect(World world, ItemStack boots, PlayerEntity player) {
-        int timer = Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0);
-
-        //stolen from my mixin
-//        if (boots.getItem() instanceof CaniteArmorItem) {
-//            if (Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, boots, false)) {
-//                if (CaniteArmorItem.canLunge(boots, player) && player.jumping) {
-//                    CaniteArmorItem.lunge(player);
-//                    boots.set(ModComponents.LUNGE_ABILITY_TIMER, -1);
-//                }
-//                if (player.isOnGround() && ) {
-//                    if (!player.getItemCooldownManager().isCoolingDown(boots.getItem())) {
-//                        boots.set(ModComponents.LUNGE_ABILITY_TIMER, 200);
-//                    }
-//                }
-//            }
-//        }
-
-        if (timer > 0) {
-            boots.set(ModComponents.LUNGE_ABILITY_TIMER, timer - 1);
-        } else if (timer < 0) {
-            boots.set(ModComponents.LUNGE_ABILITY_TIMER, 0);
-            return 5;
-        }
-        return 0;
-    }
-
-    @Override
     public int leggingsEffect(World world, ItemStack leggings, PlayerEntity player) {
 
         //did the ClientPlayerEntityMixin enable trotting? if the component isn't there, set it to 'false'
@@ -137,6 +110,7 @@ public class CaniteArmorItem extends ToggleableArmorItem {
                 if (Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, leggings, false)) {
                     if (trot) {
                         if (trotting == 0) {
+                            player.sendMessage(Text.literal("piksvin"));
                             for (int i = 0; i < 20; i++) {
                                 player.getWorld().addParticle(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(),
                                         0.1, 0.1, 0.1);
@@ -163,6 +137,49 @@ public class CaniteArmorItem extends ToggleableArmorItem {
         return "tooltip.tomfoolery.trot_ability";
     }
 
+    @Override
+    public int bootsEffect(World world, ItemStack boots, PlayerEntity player) {
+        int timer = Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0);
+        boolean jumping = Tomfoolery.tryGetItemBooleanComponent(ModComponents.JUMPING, boots, false);
+        boolean jumped = Tomfoolery.tryGetItemBooleanComponent(ModComponents.JUMPED, boots, false);
+        boolean wasOnground = Tomfoolery.tryGetItemBooleanComponent(ModComponents.WAS_ON_GROUND, boots, false);
+
+
+        //stolen from my mixin
+        if (Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, boots, false)) {
+            if (jumping) {
+                if (wasOnground) {
+//                    player.sendMessage(Text.literal("starting timer..."));
+                    boots.set(ModComponents.LUNGE_ABILITY_TIMER, this.getLungeTimer());
+
+                } else if (!jumped && canLunge(boots, player)) {
+                    if (player.getWorld().isClient()) {
+                        player.sendMessage(Text.literal("LUNGING!!!"));
+                    }
+                    lunge(player);
+                    boots.set(ModComponents.LUNGE_ABILITY_TIMER, -1);
+                }
+
+            }
+        }
+
+        boots.set(ModComponents.WAS_ON_GROUND, player.isOnGround());
+
+        if (timer > 0) {
+            boots.set(ModComponents.LUNGE_ABILITY_TIMER, timer - 1);
+        } else if (timer < 0) {
+            boots.set(ModComponents.LUNGE_ABILITY_TIMER, 0);
+            player.sendMessage(Text.literal("--going on cooldown--"));
+            return 200;
+        }
+
+        return 0;
+    }
+
+    public int getLungeTimer() {
+        return 200;
+    }
+
     public static boolean canLunge(ItemStack boots, PlayerEntity player) {
         return Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0) > 0 && !player.getItemCooldownManager().isCoolingDown(boots.getItem());
     }
@@ -173,8 +190,14 @@ public class CaniteArmorItem extends ToggleableArmorItem {
         //west = -x
         float xForce = (float) cos((yaw / 180) * PI + PI * 0.5);
         float zForce = (float) sin((yaw / 180) * PI + PI * 0.5);
-        float speed = 0.2f;
+        float speed = 3f;
         float downwardsForce = 0;
         player.addVelocity(xForce * speed, downwardsForce, zForce * speed);
+    }
+
+    public void setLunge(PlayerEntity player, ItemStack boots, boolean jumping) {
+        boolean jumped = Tomfoolery.tryGetItemBooleanComponent(ModComponents.JUMPING, boots, false);
+        boots.set(ModComponents.JUMPED, jumped);
+        boots.set(ModComponents.JUMPING, jumping);
     }
 }

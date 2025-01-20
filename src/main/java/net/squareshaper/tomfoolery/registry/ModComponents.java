@@ -40,6 +40,24 @@ public class ModComponents {
             ComponentType.<Integer>builder().codec(Codec.INT).build()
     );
 
+    public static final ComponentType<Boolean> JUMPING = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Tomfoolery.id("jumping"),
+            ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
+    );
+
+    public static final ComponentType<Boolean> JUMPED = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Tomfoolery.id("jumped"),
+            ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
+    );
+
+    public static final ComponentType<Boolean> WAS_ON_GROUND = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Tomfoolery.id("was_on_ground"),
+            ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
+    );
+
     public static void registerModComponents() {
         Tomfoolery.LOGGER.info("Registering Components for " + Tomfoolery.MOD_ID + "...");
     }
