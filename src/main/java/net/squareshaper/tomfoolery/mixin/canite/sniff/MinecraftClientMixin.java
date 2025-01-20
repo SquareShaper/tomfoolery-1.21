@@ -23,7 +23,7 @@ public class MinecraftClientMixin {
     @ModifyReturnValue(method = "hasOutline", at = @At("RETURN"))
     private boolean tomfoolery$entityXray(boolean original, Entity entity) {
         if (!original && player != null && entity instanceof LivingEntity living) {
-            float distance = 10;
+            float distance = CaniteArmorItem.getSniffDistance();
             //set this to true if I ever add an ability that hides your scent xD
             boolean entityIsHidden = false;
             boolean sniffing = CaniteArmorItem.getSniffing(player);

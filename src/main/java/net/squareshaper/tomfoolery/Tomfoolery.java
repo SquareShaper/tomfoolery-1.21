@@ -1,6 +1,8 @@
 package net.squareshaper.tomfoolery;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -11,6 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+import net.squareshaper.tomfoolery.item.CaniteArmorItem;
+import net.squareshaper.tomfoolery.networking.NetworkingConstants;
 import net.squareshaper.tomfoolery.registry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +47,15 @@ public class Tomfoolery implements ModInitializer {
 		ModItemGroups.registerModItemGroups();
 		ModItems.registerModItems();
 		ModComponents.registerModComponents();
+
+		PayloadTypeRegistry.playC2S().register(NetworkingConstants.TrotPayload.ID, NetworkingConstants.TrotPayload.CODEC);
+
+		ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.TrotPayload.ID, ((payload, context) -> {
+			ItemStack leggings = context.player().getInventory().getArmorStack(1);
+			if (!leggings.isEmpty() && leggings.getItem() instanceof CaniteArmorItem caniteLeggings) {
+				caniteLeggings.setTrot(context.player(), leggings, payload.Trot());
+			}
+		}));
 	}
 
 	public static List<ItemEntity> getItemsNear(World world, BlockPos position, Item item, PlayerEntity user, Float range) {

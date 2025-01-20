@@ -3,7 +3,7 @@
   "package": "net.squareshaper.tomfoolery.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "canite.lunge.LivingEntityMixin",
+    "canite.lunge.PlayerEntityMixin",
     "randomtesting.ExampleMixin",
     "randomtesting.ToolToDiamondMixin",
     "tokendisplay.TokenTooltipCrossbowMixin",
@@ -11,7 +11,8 @@
     "tokendisplay.TokenTooltipShieldMixin"
   ],
   "client": [
-    "canite.sniff.MinecraftClientMixin"
+    "canite.sniff.MinecraftClientMixin",
+    "canite.trot.ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

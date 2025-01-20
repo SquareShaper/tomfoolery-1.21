@@ -22,6 +22,12 @@ public class ModComponents {
             ComponentType.<Boolean>builder().codec(Codec.BOOL).build()
     );
 
+    public static final ComponentType<Integer> TROTTING_ABILITY = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            Tomfoolery.id("trotting_ability"),
+            ComponentType.<Integer>builder().codec(Codec.INT).build()
+    );
+
     public static final ComponentType<Integer> ABILITY_COOLDOWN = Registry.register(
             Registries.DATA_COMPONENT_TYPE,
             Tomfoolery.id("ability_cooldown"),

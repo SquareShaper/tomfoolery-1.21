@@ -18,7 +18,9 @@
   "tooltip.tomfoolery.ability_cooldown": "CD: %1$s",
   "tooltip.tomfoolery.default_ability": "This armorpiece has no ability.",
   "tooltip.tomfoolery.waterskip_ability": "You can skip over water!",
+  "tooltip.tomfoolery.lunge_ability": "Jumping again shortly after jumping makes you lunge forwards. ",
   "tooltip.tomfoolery.sniff_ability": "You can sniff out nearby mobs, seeing them through walls. ",
+  "tooltip.tomfoolery.trot_ability": "Pressing your sprint key while sprinting activates trot. ",
   "effect.tomfoolery.example-effect": "An Effect",
   "itemgroup.tomfoolery.tomfoolery": "Tomfoolery"
 }

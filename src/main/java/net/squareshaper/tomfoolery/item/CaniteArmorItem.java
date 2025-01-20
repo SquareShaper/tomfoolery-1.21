@@ -7,6 +7,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import net.squareshaper.tomfoolery.Tomfoolery;
@@ -15,6 +16,8 @@ import net.squareshaper.tomfoolery.registry.ModComponents;
 
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Math.*;
 
 public class CaniteArmorItem extends ToggleableArmorItem {
     public CaniteArmorItem(RegistryEntry<ArmorMaterial> material, Type type, Settings settings) {
@@ -39,7 +42,7 @@ public class CaniteArmorItem extends ToggleableArmorItem {
 
     @Override
     public String getBootsTooltip() {
-        return "tooltip.tomfoolery.waterskip_ability";
+        return "tooltip.tomfoolery.lunge_ability";
     }
 
     @Override
@@ -54,24 +57,124 @@ public class CaniteArmorItem extends ToggleableArmorItem {
                 && player.isSneaking();
     }
 
+    public static int getSniffDistance() {
+        return 3000;
+    }
+
     @Override
-    public int bootsEffect(World world, ItemStack stack, PlayerEntity player) {
-        int timer = Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, stack, 0);
+    public int bootsEffect(World world, ItemStack boots, PlayerEntity player) {
+        int timer = Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0);
+
+        //stolen from my mixin
+//        if (boots.getItem() instanceof CaniteArmorItem) {
+//            if (Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, boots, false)) {
+//                if (CaniteArmorItem.canLunge(boots, player) && player.jumping) {
+//                    CaniteArmorItem.lunge(player);
+//                    boots.set(ModComponents.LUNGE_ABILITY_TIMER, -1);
+//                }
+//                if (player.isOnGround() && ) {
+//                    if (!player.getItemCooldownManager().isCoolingDown(boots.getItem())) {
+//                        boots.set(ModComponents.LUNGE_ABILITY_TIMER, 200);
+//                    }
+//                }
+//            }
+//        }
+
         if (timer > 0) {
-            stack.set(ModComponents.LUNGE_ABILITY_TIMER, timer-1);
-        }
-        else if (timer < 0) {
-            stack.set(ModComponents.LUNGE_ABILITY_TIMER, 0);
-            return 400;
+            boots.set(ModComponents.LUNGE_ABILITY_TIMER, timer - 1);
+        } else if (timer < 0) {
+            boots.set(ModComponents.LUNGE_ABILITY_TIMER, 0);
+            return 5;
         }
         return 0;
     }
 
-    public static boolean canLunge(ItemStack boots) {
-        return Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0) > 0;
+    @Override
+    public int leggingsEffect(World world, ItemStack leggings, PlayerEntity player) {
+
+        //did the ClientPlayerEntityMixin enable trotting? if the component isn't there, set it to 'false'
+        int trotting = Tomfoolery.tryGetItemIntegerComponent(ModComponents.TROTTING_ABILITY, leggings, 0);
+        //if it was set to true...
+        if (trotting < 0) {
+            //...and we're still sprinting
+            if (player.isSprinting()) {
+                //do 'anything' so we can see if it works
+                float yaw = player.getHeadYaw();
+                float speed = 0.06f;
+                float xForce = (float) cos((yaw / 180) * PI + PI * 0.5);
+                float zForce = (float) sin((yaw / 180) * PI + PI * 0.5);
+                float downwardsForce = 0;
+                player.addVelocity(xForce * speed, downwardsForce, zForce * speed);
+
+                //speeds:
+                //normal sprint: 15.11
+                //sprint jumping: 11.89
+                // 0.1f:
+                //normal trot: 8.63
+                //trot jumping: 4.18
+                // 0.04f:
+                //normal trot: 11.57
+                //trot jumping: 6.68
+                // 0.06f:
+                //normal trot: 10.46
+                //trot jumping: 5.47
+
+            } else {
+                //set it to false, if the player stopped sprinting but the ability is still toggled on
+                leggings.set(ModComponents.TROTTING_ABILITY, 0);
+            }
+        }
+        //don't go on cooldown (cooldown of 0 ticks)
+        return 0;
+    }
+
+    public void setTrot(PlayerEntity player, ItemStack leggings, boolean trot) {
+        if (leggings.getItem() instanceof CaniteArmorItem) {
+            int trotting = Tomfoolery.tryGetItemIntegerComponent(ModComponents.TROTTING_ABILITY, leggings, 0);
+            if (!player.isTouchingWater() && !player.isSubmergedInWater() && player.isSprinting()
+                    && player.getHungerManager().getFoodLevel() > 6.0F && !player.isUsingItem() && !player.isFallFlying()
+                    && !player.hasVehicle()) {
+                if (Tomfoolery.tryGetItemBooleanComponent(ModComponents.ABILITY_ENABLED, leggings, false)) {
+                    if (trot) {
+                        if (trotting == 0) {
+                            for (int i = 0; i < 20; i++) {
+                                player.getWorld().addParticle(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(),
+                                        0.1, 0.1, 0.1);
+                            }
+                            leggings.set(ModComponents.TROTTING_ABILITY, -1);
+                        }
+                    }
+                    if (trotting > 0) {
+                        leggings.set(ModComponents.TROTTING_ABILITY, trotting - 1);
+                    }
+                }
+            } else {
+                leggings.set(ModComponents.TROTTING_ABILITY, CaniteArmorItem.getTrotWaitTime());
+            }
+        }
+    }
+
+    public static int getTrotWaitTime() {
+        return 7;
+    }
+
+    @Override
+    public String getLeggingsTooltip() {
+        return "tooltip.tomfoolery.trot_ability";
+    }
+
+    public static boolean canLunge(ItemStack boots, PlayerEntity player) {
+        return Tomfoolery.tryGetItemIntegerComponent(ModComponents.LUNGE_ABILITY_TIMER, boots, 0) > 0 && !player.getItemCooldownManager().isCoolingDown(boots.getItem());
     }
 
     public static void lunge(PlayerEntity player) {
-        player.addVelocity(0, 2, 0);
+        float yaw = player.getYaw();
+        //north = -z
+        //west = -x
+        float xForce = (float) cos((yaw / 180) * PI + PI * 0.5);
+        float zForce = (float) sin((yaw / 180) * PI + PI * 0.5);
+        float speed = 0.2f;
+        float downwardsForce = 0;
+        player.addVelocity(xForce * speed, downwardsForce, zForce * speed);
     }
 }
