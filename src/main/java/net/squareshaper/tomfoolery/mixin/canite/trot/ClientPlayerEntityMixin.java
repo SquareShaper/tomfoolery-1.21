@@ -24,9 +24,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Final
     protected MinecraftClient client;
 
-    @Shadow
-    protected abstract boolean canSprint();
-
     @Inject(method = "tickMovement", at = @At("HEAD"))
     public void activateTrot(CallbackInfo ci) {
         ClientPlayNetworking.send(new NetworkingConstants.TrotPayload(this.client.options.sprintKey.isPressed()));
